@@ -8,7 +8,7 @@ namespace FASTQ{
 namespace Common{
 
 enum class NucleotideBasis{
-	A, T, G, C
+	A, T, G, C, N
 };
 
 class Nucleotide{
@@ -30,6 +30,8 @@ public:
 		case 'C':
 			basis = NucleotideBasis::C;
 			break;
+		case 'N':
+			basis = NucleotideBasis::N;
 
 		default:
 			throw std::invalid_argument("Invalid nucleotide basis char");
@@ -47,6 +49,8 @@ public:
 		case NucleotideBasis::T:
 			++res;
 		case NucleotideBasis::A:
+			++res;
+		case NucleotideBasis::N:
 			break;
 		}
 
