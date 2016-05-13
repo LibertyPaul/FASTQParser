@@ -9,7 +9,7 @@ namespace FASTQ{
 namespace Common{
 
 class Quality{
-	const size_t value;
+	size_t value;
 
 	static constexpr char rangeStart	= '!';
 	static constexpr char rangeEnd		= '~';
@@ -27,6 +27,11 @@ public:
 
 	bool operator==(const Quality &quality) const{
 		return this->value == quality.value;
+	}
+
+	Quality &operator=(const Quality &o){
+		this->value = o.value;
+		return *this;
 	}
 };
 
