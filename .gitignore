@@ -27,8 +27,4 @@
 *.out
 *.app
 
-#Qt
-*.pro
-*.pro.user
-*.pri
 *.autosave
