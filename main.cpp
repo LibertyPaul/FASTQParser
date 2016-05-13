@@ -1,3 +1,4 @@
+#include "Common.hpp"
 #include "Block.hpp"
 #include "Parser.hpp"
 #include "TinyTestFramework/TinyTestFramework.hpp"
@@ -7,10 +8,6 @@
 #include <cassert>
 
 using namespace FASTQ;
-
-
-
-
 
 void case1(){
 	std::stringstream src;

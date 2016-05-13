@@ -17,7 +17,7 @@ class Parser{
 
 	bool currentBlockValid = false;
 	Block currentBlock;
-	mutable size_t lastRawBlockSize = 0;
+	mutable size_t maxStringSize = 0;
 
 	std::string readUntil(const char delimiter);
 	void readNextBlock();

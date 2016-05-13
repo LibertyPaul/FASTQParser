@@ -15,20 +15,20 @@ namespace FASTQ{
 class Block{
 	std::string sequenceName1;
 	std::string sequenceName2;
-	std::vector<std::pair<Common::NucleotideBasis, Common::Quality>> sequence;
+	std::vector<std::pair<Common::Nucleotide, Common::Quality>> sequence;
 
 public:
 	Block(){}
-	Block(std::string &&sequenceName1, std::string &&sequenceName2, std::vector<std::pair<Common::NucleotideBasis, Common::Quality>> &&sequence):
+	Block(std::string &&sequenceName1, std::string &&sequenceName2, std::vector<std::pair<Common::Nucleotide, Common::Quality>> &&sequence):
 		sequenceName1(sequenceName1),
 		sequenceName2(sequenceName2),
 		sequence(sequence){}
 
-	Block(const std::string &sequenceName1, const std::string &sequenceName2, const std::vector<std::pair<Common::NucleotideBasis, Common::Quality>> &sequence):
+	Block(const std::string &sequenceName1, const std::string &sequenceName2, const std::vector<std::pair<Common::Nucleotide, Common::Quality>> &sequence):
 		Block(
 			std::move(std::string(sequenceName1)),
 			std::move(std::string(sequenceName2)),
-			std::move(std::vector<std::pair<Common::NucleotideBasis, Common::Quality>>(sequence))
+			std::move(std::vector<std::pair<Common::Nucleotide, Common::Quality>>(sequence))
 		){}
 
 	Block(Block &&block):
@@ -69,7 +69,7 @@ public:
 		return this->sequenceName2;
 	}
 
-	const std::vector<std::pair<Common::NucleotideBasis, Common::Quality>> &getSequence() const{
+	const std::vector<std::pair<Common::Nucleotide, Common::Quality>> &getSequence() const{
 		return this->sequence;
 	}
 

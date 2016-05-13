@@ -6,6 +6,7 @@
 #include <cassert>
 #include <utility>
 #include <iostream>
+#include <algorithm>
 using namespace FASTQ;
 
 Parser::Parser(std::istream &src):
@@ -28,7 +29,11 @@ Parser::~Parser(){
 
 std::string Parser::readUntil(const char delimiter){
 	std::string result;
+	result.reserve(this->maxStringSize);
+
 	std::getline(this->src, result, delimiter);
+
+	this->maxStringSize = std::max(this->maxStringSize, result.size());
 	return result;
 }
 
@@ -51,14 +56,14 @@ void Parser::readNextBlock(){
 
 	assert(sequence.size() == quality.size());
 
-	std::vector<std::pair<Common::NucleotideBasis, Common::Quality>> sequenceQualityPairs;
+	std::vector<std::pair<Common::Nucleotide, Common::Quality>> sequenceQualityPairs;
 	sequenceQualityPairs.reserve(sequence.size());
 
 	for(size_t i = 0; i < sequence.size(); ++i){
 		try{
-			const Common::NucleotideBasis nb = Common::fromChar(sequence[i]);
+			const Common::Nucleotide nucleotide(sequence[i]);
 			const Common::Quality qualityValue(quality[i]);
-			sequenceQualityPairs.push_back(std::make_pair(nb, qualityValue));
+			sequenceQualityPairs.push_back(std::make_pair(nucleotide, qualityValue));
 		}
 		catch(std::invalid_argument &ex){
 			assert(sequence[i] == quality[i]); // if there is a \n symbol in `seq` it should be at same position in `qual`
