@@ -9,7 +9,16 @@
 
 using namespace FASTQ;
 
-void case1(){
+void nucleotideTest(){
+	const Common::Nucleotide n1(Common::NucleotideBasis::G);
+	assert(n1.toBitset() == std::bitset<Common::Nucleotide::binarySize>("010"));
+
+	const Common::Nucleotide n2(Common::NucleotideBasis::N);
+	assert(Common::Nucleotide::fromBitset(std::bitset<Common::Nucleotide::binarySize>("100")) == n2);
+}
+
+
+void parserTest(){
 	std::stringstream src;
 	src <<
 		"@EAS54_6_R1_2_1_413_324\n"
@@ -74,6 +83,7 @@ void case1(){
 }
 
 int main(){
-	TTF_TEST(case1);
+	TTF_TEST(nucleotideTest);
+	TTF_TEST(parserTest);
 }
 

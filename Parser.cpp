@@ -61,12 +61,12 @@ void Parser::readNextBlock(){
 
 	for(size_t i = 0; i < sequence.size(); ++i){
 		try{
-			const Common::Nucleotide nucleotide(sequence[i]);
+			const Common::Nucleotide nucleotide = Common::Nucleotide::fromSymbol(sequence[i]);
 			const Common::Quality qualityValue(quality[i]);
 			sequenceQualityPairs.push_back(std::make_pair(nucleotide, qualityValue));
 		}
 		catch(std::invalid_argument &ex){
-			assert(sequence[i] == quality[i]); // if there is a \n symbol in `seq` it should be at same position in `qual`
+			assert((sequence[i] == '\n') && (quality[i] == '\n'));
 			continue;
 		}
 
@@ -95,9 +95,14 @@ bool Parser::hasNext(){
 	return this->currentBlockValid;
 }
 
+double Parser::progress() const{
+	const auto currentPos = this->src.tellg();
+	this->src.seekg(0, std::ios_base::end);
+	const auto streamSize = this->src.tellg();
+	this->src.seekg(currentPos);
 
-
-
+	return static_cast<double>(currentPos) / streamSize;
+}
 
 
 

@@ -27,6 +27,8 @@ public:
 
 	bool hasNext();
 	Block next();
+
+	double progress() const;
 };
 
 
