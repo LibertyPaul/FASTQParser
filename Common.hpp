@@ -23,17 +23,17 @@ public:
 	static constexpr value_type min_value = value_type::A;
 	static constexpr value_type max_value = value_type::N;
 
-	explicit Nucleotide(const value_type index): index(index){}
+	explicit Nucleotide(const value_type index): index(index){
+		if(this->index > Nucleotide::max_value){
+			throw std::invalid_argument("Incorrect index");
+		}
+	}
 
 	size_t toIndex() const{
 		return static_cast<size_t>(index);
 	}
 
 	static Nucleotide fromIndex(const size_t index){
-		if(index > static_cast<size_t>(max_value)){
-			throw std::overflow_error("");
-		}
-
 		return Nucleotide(static_cast<value_type>(index));
 	}
 
@@ -95,20 +95,8 @@ public:
 		return *this;
 	}
 
-	bool operator==(const NucleotideBasis &alphabet) const{
-		return this->index == alphabet;
-	}
-
-	bool operator==(const Nucleotide &o) const{
-		return *this == o.index;
-	}
-
-	bool operator!=(const Nucleotide &o) const{
-		return !(*this == o);
-	}
-
-	bool operator<(const Nucleotide &o) const{
-		return this->index < o.index;
+	operator NucleotideBasis() const{
+		return this->index;
 	}
 
 	Nucleotide &operator++(){

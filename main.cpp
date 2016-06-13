@@ -79,11 +79,62 @@ void parserTest(){
 
 
 	assert(p1.hasNext() == false);
+}
 
+void incorrectDataTest(){
+	std::stringstream src;
+	src <<
+		"@EAS54_6_R1_2_1_413_324\n"
+		"*** INCORRECT DATA!!! ***\n"
+		"+\n"
+		";;3;;;;;;;;;;;;7;;;;;;;88\n"
+		"@EAS54_6_R1_2_1_540_792\n"
+		"TTGGCAGGCCAAGGCCGATGGATCA\n"
+		"+\n"
+		";;;;;;;;;;;7;;;;;-;;;3;83\n"
+		"@EAS54_6_R1_2_1_443_348\n"
+		"GTTGCTTCTGGCGTGGGTGGGGGGG\n"
+		"+EAS54_6_R1_2_1_443_348\n"
+		";;;;;;;;;;;9;7;;.7;393333\n";
+
+
+	bool caught = false;
+
+	try{
+		Parser p1(src);
+		assert(p1.hasNext());
+		p1.next();
+	}
+	catch(std::invalid_argument &ia){
+		caught = true;
+	}
+
+	assert(caught);
 }
 
 int main(){
 	TTF_TEST(nucleotideTest);
 	TTF_TEST(parserTest);
+	TTF_TEST(incorrectDataTest);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

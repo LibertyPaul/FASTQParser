@@ -25,7 +25,7 @@ public:
 	Parser(std::istream &src);
 	~Parser();
 
-	bool hasNext();
+	bool hasNext() const;
 	Block next();
 
 	double progress() const;

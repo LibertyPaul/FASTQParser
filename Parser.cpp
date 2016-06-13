@@ -60,16 +60,13 @@ void Parser::readNextBlock(){
 	sequenceQualityPairs.reserve(sequence.size());
 
 	for(size_t i = 0; i < sequence.size(); ++i){
-		try{
-			const Common::Nucleotide nucleotide = Common::Nucleotide::fromSymbol(sequence[i]);
-			const Common::Quality qualityValue(quality[i]);
-			sequenceQualityPairs.push_back(std::make_pair(nucleotide, qualityValue));
-		}
-		catch(std::invalid_argument &ex){
-			assert((sequence[i] == '\n') && (quality[i] == '\n'));
+		if(sequence[i] == '\n' && quality[i] == '\n'){
 			continue;
 		}
 
+		const Common::Nucleotide nucleotide = Common::Nucleotide::fromSymbol(sequence[i]);
+		const Common::Quality qualityValue(quality[i]);
+		sequenceQualityPairs.push_back(std::make_pair(nucleotide, qualityValue));
 	}
 
 	this->currentBlock = Block(std::move(seqname), std::move(seqname2), std::move(sequenceQualityPairs));
@@ -91,11 +88,15 @@ Block Parser::next(){
 	return result;
 }
 
-bool Parser::hasNext(){
+bool Parser::hasNext() const{
 	return this->currentBlockValid;
 }
 
 double Parser::progress() const{
+	if(this->src.good() == false){
+		return 1.0;
+	}
+
 	const auto currentPos = this->src.tellg();
 	this->src.seekg(0, std::ios_base::end);
 	const auto streamSize = this->src.tellg();
