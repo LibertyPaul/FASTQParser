@@ -38,9 +38,16 @@ std::string Parser::readUntil(const char delimiter){
 }
 
 void Parser::readNextBlock(){
-	const int blockStart = this->src.get();
+	int blockStart;
+	do{
+		blockStart = this->src.get();
+	}while(blockStart == '\n' || blockStart == '\r'); // some FASTQ files have extra \n at the end of file
+
 	if(blockStart != this->blockDelimiter){
-		throw std::runtime_error("Incorrect block delimiter");
+		std::string errorMsg = "Incorrect block delimiter: ";
+		errorMsg += "(" + std::to_string(blockStart) + ")";
+		errorMsg += std::string(" instead of ") + "(" + std::to_string(this->blockDelimiter) + ")";
+		throw std::runtime_error(errorMsg);
 	}
 
 	const std::string seqname = this->readUntil('\n');
@@ -81,7 +88,10 @@ Block Parser::next(){
 	try{
 		this->readNextBlock();
 	}
-	catch(const std::ios_base::failure &e){
+	catch(const std::ios_base::failure &){
+		this->currentBlockValid = false;
+	}
+	catch(const std::underflow_error&){
 		this->currentBlockValid = false;
 	}
 

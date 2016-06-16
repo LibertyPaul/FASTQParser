@@ -32,7 +32,8 @@ void parserTest(){
 		"@EAS54_6_R1_2_1_443_348\n"
 		"GTTGCTTCTGGCGTGGGTGGGGGGG\n"
 		"+EAS54_6_R1_2_1_443_348\n"
-		";;;;;;;;;;;9;7;;.7;393333\n";
+		";;;;;;;;;;;9;7;;.7;393333\n"
+		"\n";
 
 
 	Parser p1(src);
@@ -95,7 +96,8 @@ void incorrectDataTest(){
 		"@EAS54_6_R1_2_1_443_348\n"
 		"GTTGCTTCTGGCGTGGGTGGGGGGG\n"
 		"+EAS54_6_R1_2_1_443_348\n"
-		";;;;;;;;;;;9;7;;.7;393333\n";
+		";;;;;;;;;;;9;7;;.7;393333\n"
+		"";
 
 
 	bool caught = false;
